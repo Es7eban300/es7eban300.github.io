@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<style>
+    body, html {
+        overflow-x: hidden;
+    }
+
+    body {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .principal {
+        background-image: url('https://i.ibb.co/ZTMmykw/Blue-and-Yellow-Vintage-Flowers-Thank-You-Instagram-Post.png');
+        width: 100%;
+        height: 100vh;
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+
+    .container-text {
+        width: 90%;
+        height: 500px;
+        margin-top: 90px;
+        position: relative;
+    }
+
+    h1 {
+        margin: 0;
+        color: #f6e3b0;
+        font-family: "Pacifico", cursive;
+        font-weight: 400;
+        font-style: normal;
+        text-align: center;
+    }
+
+    .typing-text::after {
+        content: "|";
+        animation: blink ease 1s infinite;
+    }
+
+    @keyframes blink {
+        0%, 100% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+    }
+
+    .pulse-button{
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translate(-50%);
+    }
+
+            /* Button resets and style */
+        button {
+            margin: 15px auto;
+            font-family: "Montserrat";
+            font-size: 20px;
+            color: black;
+            cursor: pointer;
+            border-radius: 100px;
+            padding: 15px 20px;
+            font-family: "Pacifico", cursive;
+            border: 0px solid #000;		
+            }
+
+        /* Initiate Auto-Pulse animations */
+        button.pulse-button {
+            animation: borderPulse 1000ms infinite ease-out, colorShift 10000ms infinite ease-in;
+        }
+
+
+                /* Declate color shifting animation */
+        @keyframes colorShift {
+            0%, 100% {
+                    background: #f6e3b0;
+            }
+            33% {
+                background: #f6e3b0;
+            }
+            66%{
+                background: #f6e3b0;
+            }
+        }
+
+        /* Declare border pulse animation */
+        @keyframes borderPulse {
+        0% {
+            box-shadow: inset 0px 0px 0px 5px rgba(255, 255, 255,.4), 0px 0px 0px 0px rgba(255,255,255,1);
+        }
+        100% {
+            box-shadow: inset 0px 0px 0px 3px rgba(117, 117, 255,.2), 0px 0px 0px 10px rgba(255,255,255,0);
+        }
+        }
+
+
+</style>
+
+<body>
+    <div class="principal">
+        <div class="container-text">
+            <div class="hello">
+                <h1 class="typing-text"></h1>
+            </div>
+
+            <button onclick="window.location.href='flores.html';" class="pulse-button">Clic aqui</button>
+        </div>
+    </div>
+</body>
+
+<script>
+    // obtener el elemento
+    const text = document.querySelector('.typing-text');
+
+    // hacer un array de palabras
+    const words = [
+        `Para: Natalia Carpintero<br><br>
+        El amor de mi vida<br>
+        y de todos mis días<br><br>
+        De: Esteban Castro`
+    ];
+
+    // iniciar efecto de escritura
+    setTyper(text, words);
+
+    function setTyper(element, words) {
+        const LETTER_TYPE_DELAY = 75;
+        const WORD_STAY_DELAY = 2000;
+
+        const DIRECTION_FORWARDS = 0;
+        const DIRECTION_BACKWARDS = 1;
+
+        let direction = DIRECTION_FORWARDS;
+        let wordIndex = 0;
+        let letterIndex = 0;
+
+        let wordTypeInterval;
+
+        startTyping();
+
+        function startTyping() {
+            wordTypeInterval = setInterval(typeLetter, LETTER_TYPE_DELAY);
+        }
+
+        function typeLetter() {
+            const word = words[wordIndex];
+
+            if (direction === DIRECTION_FORWARDS) {
+                letterIndex++;
+
+                if (letterIndex === word.length) {
+                    direction = DIRECTION_BACKWARDS;
+                    clearInterval(wordTypeInterval);
+                    setTimeout(startTyping, WORD_STAY_DELAY);
+                }
+
+            } else if (direction === DIRECTION_BACKWARDS) {
+                letterIndex--;
+
+                if (letterIndex === 0) {
+                    nextWord();
+                }
+            }
+
+            const textToType = word.substring(0, letterIndex);
+
+            // Cambia textContent por innerHTML para que respete los <br>
+            element.innerHTML = textToType;
+        }
+
+        function nextWord() {
+            letterIndex = 0;
+            direction = DIRECTION_FORWARDS;
+            wordIndex++;
+
+            if (wordIndex === words.length) {
+                wordIndex = 0;
+            }
+        }
+    }
+
+</script>
+
+</html>
